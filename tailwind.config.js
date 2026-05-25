@@ -7,7 +7,8 @@ export default {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Noto Sans TC', 'Segoe UI', 'sans-serif']
       },
       boxShadow: {
-        soft: '0 18px 45px rgba(73, 55, 87, 0.12)'
+        soft: '0 18px 45px rgba(64, 54, 105, 0.12)',
+        glow: '0 18px 55px rgba(157, 140, 255, 0.28)'
       }
     }
   },

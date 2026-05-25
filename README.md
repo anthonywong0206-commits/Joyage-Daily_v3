@@ -1,21 +1,41 @@
-# MoodFlow
+# MoodFlow Modern UI 版本
 
-MoodFlow 是一個可部署到 GitHub Pages / Vercel 的純前端情緒記錄日記網站。
+這是 MoodFlow 的現代化介面更新版，風格跟從概念圖方向：
 
-副標題：每天記下自己的情緒。
+- iOS App-like
+- 柔和漸層背景
+- 玻璃感卡片
+- 半圓情緒轉盤
+- 現代月曆紀錄
+- 統計分析卡片
+- IG Story 圖生成
+- Mobile-first
+- 支援 GitHub Pages / Vercel
+- 保留原本 localStorage Key：`moodflow_records_v1`
 
-## 技術
+## 更新網站方法
 
-- React 18
-- Vite 5.x
-- Tailwind CSS 3.x
-- lucide-react
-- framer-motion
-- html2canvas
-- localStorage
-- 無後端
-- 無資料庫
-- 無 API Key
+### 方法一：直接覆蓋原網站檔案
+
+1. 下載並解壓 ZIP。
+2. 將 ZIP 入面的所有檔案上載到你的 GitHub repository。
+3. 選擇覆蓋舊檔案。
+4. 等 Vercel / GitHub Pages 自動重新部署。
+
+建議覆蓋以下檔案及資料夾：
+
+```txt
+package.json
+index.html
+vite.config.js
+postcss.config.js
+tailwind.config.js
+src/
+public/
+README.md
+```
+
+不要上載 `node_modules`。
 
 ## 本機安裝方法
 
@@ -26,7 +46,7 @@ npm install
 npm run dev
 ```
 
-開啟畫面顯示的網址，例如：
+然後打開畫面顯示的網址，例如：
 
 ```bash
 http://localhost:5173
@@ -38,25 +58,11 @@ http://localhost:5173
 npm run build
 ```
 
-完成後會產生 `dist` 資料夾。
+成功後會產生：
 
-## GitHub Pages 部署方法
-
-方法一：使用 GitHub Pages + GitHub Actions。
-
-1. 將所有專案檔案上載到 GitHub repository。
-2. 在 GitHub repository 進入 Settings。
-3. 進入 Pages。
-4. Source 選擇 GitHub Actions。
-5. 可自行加入 Vite deploy workflow，或在本機執行 `npm run build` 後上載 `dist` 內容到 Pages 分支。
-
-本專案已在 `vite.config.js` 使用：
-
-```js
-base: './'
+```txt
+dist/
 ```
-
-所以可支援 GitHub Pages 子路徑部署。
 
 ## Vercel 部署方法
 
@@ -64,13 +70,13 @@ base: './'
 2. 到 Vercel 新增 Project。
 3. Import 你的 GitHub repository。
 4. Framework Preset 選 Vite。
-5. Build Command 使用：
+5. Build Command：
 
 ```bash
 npm run build
 ```
 
-6. Output Directory 使用：
+6. Output Directory：
 
 ```bash
 dist
@@ -78,37 +84,51 @@ dist
 
 7. 按 Deploy。
 
-## 如何更新網站檔案
+## GitHub Pages 部署方法
 
-如你只是修改程式：
+本專案已設定：
 
-1. 在電腦解壓 ZIP。
-2. 修改相應檔案，例如 `src/App.jsx` 或 `src/index.css`。
-3. 上載及覆蓋 GitHub repository 內的同名檔案。
-4. Vercel 會自動重新部署。
+```js
+base: './'
+```
 
-如使用 GitHub Pages，請重新執行 build 或重新部署。
+可支援 GitHub Pages 子路徑部署。
 
-## 常見問題
+基本做法：
 
-### 1. Vercel build failed 點處理？
-
-先在本機執行：
+1. 上載完整專案到 GitHub。
+2. 執行：
 
 ```bash
 npm install
 npm run build
 ```
 
-如果本機都失敗，通常是以下原因：
+3. 將 `dist` 內容部署到 GitHub Pages。
 
-- package.json 被改到 React 19 或 Vite 6/7/8
-- import 路徑錯誤
-- 刪除了 `src/App.jsx`、`src/main.jsx` 或 `src/index.css`
-- 上載漏檔案
-- Node.js 版本太舊
+## localStorage 資料
 
-本專案指定穩定版本：
+紀錄儲存在使用者瀏覽器：
+
+```txt
+moodflow_records_v1
+```
+
+更新介面不會自動刪除舊紀錄，因為沿用相同 Key。
+
+## 常見問題
+
+### Vercel build failed
+
+請檢查：
+
+- 是否漏了 `package.json`
+- 是否漏了 `src/App.jsx`
+- 是否漏了 `src/main.jsx`
+- 是否使用 React 19 / Vite 6 以上
+- 是否把 `node_modules` 上載到 GitHub
+
+本版本使用：
 
 ```json
 "vite": "^5.4.0",
@@ -117,32 +137,23 @@ npm run build
 "tailwindcss": "^3.4.0"
 ```
 
-### 2. 白屏點處理？
+### 白屏
 
-請檢查：
+多數是以下原因：
 
-- GitHub / Vercel 是否已上載全部檔案
-- `index.html` 是否有 `<script type="module" src="./src/main.jsx"></script>`
-- `vite.config.js` 是否保留 `base: './'`
-- 瀏覽器 Console 是否顯示 missing file / import error
-- 不要只上載 `src`，必須連 `package.json`、`index.html`、config 檔案一併上載
+- 沒有完整覆蓋檔案
+- `src` 資料夾漏檔
+- `index.html` script 路徑被改錯
+- GitHub Pages 沒有使用 `base: './'`
+- 舊版瀏覽器快取
 
-### 3. localStorage 資料在哪裡？
+可嘗試：
 
-資料存在使用者瀏覽器內的 localStorage。
+1. 清除瀏覽器快取。
+2. Vercel 重新 Deploy。
+3. 確認 GitHub 上有完整 `src/App.jsx`。
 
-Key 名稱：
+### 要不要上載 node_modules？
 
-```txt
-moodflow_records_v1
-```
-
-資料不會上傳到伺服器，也不會同步到其他手機或電腦。
-
-如清除瀏覽器資料，紀錄會消失。
-
-### 4. IG Story 圖在哪裡生成？
-
-全部在瀏覽器前端完成，使用 `html2canvas` 生成 1080 x 1920 PNG。
-
-支援 Web Share API 的手機瀏覽器會嘗試直接分享；不支援時會下載 PNG。
+不用。  
+只需上載專案檔案，Vercel 會自動根據 `package.json` 安裝。
